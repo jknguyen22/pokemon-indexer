@@ -1,0 +1,44 @@
+<html>
+{{#each foo}}
+{{this}}
+{{/each}}
+<h3>Add a Type:</h3>
+<form id="addtype" action="/type" method="post">
+  Type Name: <input type="text" name="type_name" placeholder="Fire"><br>
+  Weak Against: <input type="text" name="weak_against" placeholder="Water"><br>
+  Strong Against: <input type="text" name="strong_against" placeholder="Grass"><br>
+  <input type="submit" value="Submit">
+</form>
+<br />
+
+<h3>Current Types:</h3>
+<table id="typeTable">
+  <thead>
+    <th>Type ID</th>
+    <th>Type Name</th>
+    <th>Weak Against</th>
+    <th>Strong Against</th>
+  </thead>
+  <tbody>
+    {{#each type}}
+    <tr>
+      <td>{{type_id}}</td>
+      <td>{{type_name}}</td>
+      <td>{{weak_against}}</td>
+      <td>{{strong_against}}</td>
+      <td><input type = "button" name={{this.type_id}} id = "delete" value = "Delete" onClick ="deleteRow(this, {{this.type_id}})"></input>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<script>
+    function deleteRow(row, id){
+    var req = new XMLHttpRequest();
+    var url = '/type/delete?type_id=' + id;
+    req.open('DELETE', url);
+    req.send();
+    var i=row.parentNode.parentNode.rowIndex;
+    document.getElementById('typeTable').deleteRow(i);
+  }
+</script>
+</html>

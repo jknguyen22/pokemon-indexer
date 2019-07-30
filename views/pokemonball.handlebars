@@ -1,0 +1,42 @@
+<html>
+{{#each foo}}
+{{this}}
+{{/each}}
+<h3>Add a Ball:</h3>
+<form id="addpokemonball" action="/pokemonball" method="post">
+  Ball Name: <input type="text" name="pb_name" placeholder="Master Ball"><br>
+  Cost: <input type="text" name="pb_cost" placeholder="1000"><br>
+  <input type="submit" value="Submit">
+</form>
+<br />
+
+<h3>Current Pokemon Balls:</h3>
+<table id="pbTable">
+  <thead>
+    <th>Ball ID</th>
+    <th>Ball Name</th>
+    <th>Cost</th>
+  </thead>
+  <tbody>
+    {{#each pokemonball}}
+    <tr>
+      <td>{{pb_id}}</td>
+      <td>{{pb_name}}</td>
+      <td>{{pb_cost}}</td>
+      <td><input type = "button" name={{this.pb_id}} id = "delete" value = "Delete" onClick ="deleteRow(this, {{this.pb_id}})"></input>
+      <td><a href="/pokemonball/{{this.pb_id}}">Update</a></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<script>
+    function deleteRow(row, id){
+    var req = new XMLHttpRequest();
+    var url = '/pokemonball/delete?pb_id=' + id;
+    req.open('DELETE', url);
+    req.send();
+    var i=row.parentNode.parentNode.rowIndex;
+    document.getElementById('pbTable').deleteRow(i);
+  }
+</script>
+</html>

@@ -1,0 +1,50 @@
+<html>
+{{#each foo}}
+{{this}}
+{{/each}}
+<h3>Add new Pokemon:</h3>
+<form id="addpokemon" action="/pokemon" method="post">
+  Pokemon No: <input type="text" name="p_no" placeholder="10"><br>
+  Pokemon Name: <input type="text" name="p_name" placeholder="Charizard"><br>
+  Catch Rate: <input type="number" step = "0.01" name="p_catchrate" placeholder="0.25"><br>
+  <input type="submit" value="Submit">
+</form>
+<br />
+
+<h3>Current Pokemon:</h3>
+<table id ="pokemonTable">
+  <thead>
+    <th>Pokemon ID</th>
+    <th>Pokemon No</th>
+    <th>Pokemon Name</th>
+    <th>Catch Rate</th>
+  </thead>
+  <tbody>
+    {{#each pokemon}}
+    <tr>
+      <td>{{this.p_id}}</td>
+      <td>{{this.p_no}}</td>
+      <td>{{this.p_name}}</td>
+      <td>{{this.p_catchrate}}</td>
+      <td><a href="/pokemon/{{p_id}}">Update<</a></td>
+      <td><input type = "button" name={{this.p_id}} id = "delete" value = "Delete" onClick ="deleteRow(this, {{this.p_id}})"></input>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<script>
+    function deleteRow(row, id){
+    var req = new XMLHttpRequest();
+    var url = '/pokemon/delete?p_id=' + id;
+    req.open('DELETE', url);
+    req.send();
+    var i=row.parentNode.parentNode.rowIndex;
+    document.getElementById('pokemonTable').deleteRow(i);
+  }
+
+</script>
+
+
+
+</html>

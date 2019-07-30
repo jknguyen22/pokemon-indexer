@@ -1,0 +1,40 @@
+<html>
+{{#each foo}}
+{{this}}
+{{/each}}
+<h3>Add a Move:</h3>
+<form id="addmove" action="/move" method="post">
+  Move Name: <input type="text" name="move_name" placeholder="Ember"><br>
+  <input type="submit" value="Submit">
+</form>
+<br />
+
+<h3>Current Moves:</h3>
+<table id = "moveTable">
+  <thead>
+    <th>Move ID</th>
+    <th>Move Name</th>
+  </thead>
+  <tbody>
+    {{#each move}}
+    <tr>
+      <td>{{move_id}}</td>
+      <td>{{move_name}}</td>
+      <td><input type = "button" name={{this.move_id}} id = "delete" value = "Delete" onClick ="deleteRow(this, {{this.move_id}})"></input>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<script>
+    function deleteRow(row, id){
+    var req = new XMLHttpRequest();
+    var url = '/move/delete?move_id=' + id;
+    req.open('DELETE', url);
+    req.send();
+    var i=row.parentNode.parentNode.rowIndex;
+    document.getElementById('moveTable').deleteRow(i);
+  }
+
+</script>
+
+</html>

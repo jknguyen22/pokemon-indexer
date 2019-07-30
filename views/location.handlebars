@@ -1,0 +1,44 @@
+<html>
+{{#each foo}}
+{{this}}
+{{/each}}
+<h3>Add a Location:</h3>
+<form id="addlocation" action="/location" method="post">
+  Location Name: <input type="text" name="loc_name" placeholder="Cerulean City"><br>
+  Gym?  <input type="text" name="loc_gym" placeholder="1 for true, 0 for false"><br>
+  Pokemon Center? <input type="text" name="loc_pc" placeholder="1 for true, 0 for false"><br>
+  <input type="submit" value="Submit">
+</form>
+<br />
+
+<h3>Current Locations:</h3>
+<table id="locTable">
+  <thead>
+    <th>Location ID</th>
+    <th>Location Name</th>
+    <th>Gym?</th>
+    <th>Pokemon Center?</th>
+  </thead>
+  <tbody>
+    {{#each location}}
+    <tr>
+      <td>{{loc_id}}</td>
+      <td>{{loc_name}}</td>
+      <td>{{loc_gym}}</td>
+      <td>{{loc_pc}}</td>
+      <td><input type = "button" name={{this.loc_id}} id = "delete" value = "Delete" onClick ="deleteRow(this, {{this.loc_id}})"></input>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<script>
+    function deleteRow(row, id){
+    var req = new XMLHttpRequest();
+    var url = '/location/delete?loc_id=' + id;
+    req.open('DELETE', url);
+    req.send();
+    var i=row.parentNode.parentNode.rowIndex;
+    document.getElementById('locTable').deleteRow(i);
+  }
+</script>
+</html>

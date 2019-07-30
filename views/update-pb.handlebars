@@ -1,0 +1,9 @@
+<h1>Update {{house.name}}:</h1>
+
+<form id="update-pokemon" action="/pokemonball/{{pokemonball.pb_id}}?_method=PUT" method="post">
+    Pokemon Ball Cost: <input type="number" name="name" value="{{pokemonball.pb_cost}}"><br>
+    {{#each pokemonball}}
+    <option value="{{this.pb_id}}">{{this.pb_name}} {{this.pb_cost}}</option>
+    {{/each}}
+    <button type="submit">Update</button>
+</form>
